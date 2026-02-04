@@ -3,16 +3,18 @@ export type Product = {
   name: string;
   price: number;
   image: string;
+  images?: string[];
   category: string;
 };
 
 export const products: Product[] = [
   {
     id: 1,
-    name: "MNYB Signature Tee",
-    price: 45,
-    image: "/shirt1.jpg",
-    category: "T-Shirts",
+    name: "MYNY Signature Jacket",
+    price: 400,
+    image: "/jacket.jpg",
+    images: ["/jacket.jpg", "/jacket-front-full.png", "/jacket-back.jpg", "/jacket-front-detail.png"],
+    category: "Jackets",
   },
   {
     id: 2,
@@ -23,9 +25,9 @@ export const products: Product[] = [
   },
   {
     id: 3,
-    name: "Downtown Snapback",
-    price: 35,
-    image: "/shirt3.jpg",
+    name: "MYNY Signature Snapback",
+    price: 75,
+    image: "/hat.png",
     category: "Headwear",
   },
   {

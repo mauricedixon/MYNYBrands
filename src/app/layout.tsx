@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
+import { CustomCursor } from "@/components/CustomCursor";
+import { CartSidebar } from "@/components/CartSidebar";
+import { CursorProvider } from "@/context/CursorContext";
+import { CartProvider } from "@/context/CartContext";
+import { AudioPlayer } from "@/components/AudioPlayer";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,7 +32,14 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${oswald.variable} antialiased bg-white text-black`}
       >
-        {children}
+        <CursorProvider>
+          <CartProvider>
+            <CustomCursor />
+            <CartSidebar />
+            <AudioPlayer />
+            {children}
+          </CartProvider>
+        </CursorProvider>
       </body>
     </html>
   );

@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useScroll, useMotionValueEvent } from "framer-motion";
+import { useCursor } from "@/context/CursorContext";
+import { useCart } from "@/context/CartContext";
 
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
+  const { setCursorVariant } = useCursor();
+  const { totalItems, toggleCart } = useCart();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 50);
@@ -27,17 +32,27 @@ export const Navbar = () => {
         {/* Logo */}
         <Link
           href="/"
-          className="text-2xl font-heading font-bold tracking-tighter group hover:opacity-80 transition-opacity"
+          onMouseEnter={() => setCursorVariant("link")}
+          onMouseLeave={() => setCursorVariant("default")}
+          className="relative w-32 h-10 group hover:opacity-80 transition-opacity"
         >
-          MN<span className="text-brand-red">Y</span>B
+          <Image
+            src={scrolled ? "/logo.png" : "/logo-white-v2.png"}
+            alt="MNYB Logo"
+            fill
+            className={`object-contain object-left transition-opacity duration-300 ${!scrolled ? 'mix-blend-screen contrast-200' : ''}`}
+            priority
+          />
         </Link>
 
         {/* Links */}
         <div className="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
-          {["SHOP", "MEDIA", "ABOUT"].map((item) => (
+          {["SHOP", "LIFESTYLE", "MEDIA", "ABOUT"].map((item) => (
             <Link
               key={item}
               href={`#${item.toLowerCase()}`}
+              onMouseEnter={() => setCursorVariant("link")}
+              onMouseLeave={() => setCursorVariant("default")}
               className="hover:text-brand-red transition-colors relative group/link"
             >
               {item}
@@ -47,12 +62,18 @@ export const Navbar = () => {
         </div>
 
         {/* Cart */}
-        <button className="relative group">
+        <button 
+            className="relative group"
+            onClick={toggleCart}
+            onMouseEnter={() => setCursorVariant("link")}
+            onMouseLeave={() => setCursorVariant("default")}
+        >
           <ShoppingBag className="w-5 h-5 group-hover:text-brand-red transition-colors" />
-          <span className="absolute -top-1 -right-1 flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-red opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-red"></span>
-          </span>
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-brand-red text-[10px] text-white">
+              {totalItems}
+            </span>
+          )}
         </button>
       </div>
     </nav>

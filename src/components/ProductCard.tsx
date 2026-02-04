@@ -1,12 +1,21 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Product } from "@/data/products";
+import { useCursor } from "@/context/CursorContext";
 
 export const ProductCard = ({ product }: { product: Product }) => {
+  const { setCursorVariant } = useCursor();
+
   return (
-    <div className="group cursor-pointer">
+    <Link 
+        href={`/shop/${product.id}`}
+        className="group cursor-pointer block"
+        onMouseEnter={() => setCursorVariant("link")}
+        onMouseLeave={() => setCursorVariant("default")}
+    >
       <div className="overflow-hidden bg-gray-100 aspect-[3/4] relative">
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -18,7 +27,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover"
+            className="object-cover object-center md:object-contain md:p-4"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </motion.div>
@@ -34,6 +43,6 @@ export const ProductCard = ({ product }: { product: Product }) => {
         </div>
         <span className="text-sm font-medium font-mono">${product.price}</span>
       </div>
-    </div>
+    </Link>
   );
 };

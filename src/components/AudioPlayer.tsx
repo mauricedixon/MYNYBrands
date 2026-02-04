@@ -4,11 +4,13 @@ import { useState, useRef, useEffect } from "react";
 import { Play, Pause, SkipForward, SkipBack } from "lucide-react";
 import { motion } from "framer-motion";
 import { playlist } from "@/data/playlist";
+import { useCursor } from "@/context/CursorContext";
 
 export const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const { setCursorVariant } = useCursor();
 
   const currentTrack = playlist[currentTrackIndex];
 
@@ -63,6 +65,8 @@ export const AudioPlayer = () => {
             <button 
                 onClick={prevTrack}
                 className="p-1 hover:text-brand-red transition-colors"
+                onMouseEnter={() => setCursorVariant("link")}
+                onMouseLeave={() => setCursorVariant("default")}
             >
                 <SkipBack size={14} fill="currentColor" />
             </button>
@@ -70,6 +74,8 @@ export const AudioPlayer = () => {
             <button
             onClick={togglePlay}
             className="w-10 h-10 bg-black text-white flex items-center justify-center rounded-none hover:bg-brand-red transition-colors flex-shrink-0"
+            onMouseEnter={() => setCursorVariant("link")}
+            onMouseLeave={() => setCursorVariant("default")}
             >
             {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}
             </button>
@@ -77,6 +83,8 @@ export const AudioPlayer = () => {
             <button 
                 onClick={nextTrack}
                 className="p-1 hover:text-brand-red transition-colors"
+                onMouseEnter={() => setCursorVariant("link")}
+                onMouseLeave={() => setCursorVariant("default")}
             >
                 <SkipForward size={14} fill="currentColor" />
             </button>

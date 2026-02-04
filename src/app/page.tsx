@@ -1,11 +1,15 @@
+"use client";
+
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { ProductCard } from "@/components/ProductCard";
-import { AudioPlayer } from "@/components/AudioPlayer";
 import { AboutVisual } from "@/components/AboutVisual";
 import { products } from "@/data/products";
+import { useCursor } from "@/context/CursorContext";
 
-export default function Home() {
+const PageContent = () => {
+  const { setCursorVariant } = useCursor();
+
   return (
     <main className="bg-white min-h-screen selection:bg-brand-red selection:text-white">
       <Navbar />
@@ -43,10 +47,14 @@ export default function Home() {
             <p className="text-gray-400 text-lg leading-relaxed max-w-md font-light">
               My New York Brands represents the gritty, authentic spirit of the
               city. We don&apos;t just sell clothes; we curate culture. Designed
-              in SoHo, worn everywhere.
+              in Brooklyn, worn everywhere.
             </p>
             <div className="mt-8 flex items-center space-x-4">
-               <button className="px-8 py-3 bg-white text-black font-bold font-heading uppercase tracking-wide hover:bg-brand-red hover:text-white transition-colors">
+               <button 
+                className="px-8 py-3 bg-white text-black font-bold font-heading uppercase tracking-wide hover:bg-brand-red hover:text-white transition-colors"
+                onMouseEnter={() => setCursorVariant("link")}
+                onMouseLeave={() => setCursorVariant("default")}
+               >
                   Read Manifesto
                </button>
             </div>
@@ -59,14 +67,31 @@ export default function Home() {
          <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center text-xs uppercase tracking-widest text-gray-600">
             <p>&copy; 2026 My New York Brands.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-               <a href="#" className="hover:text-white transition-colors">Instagram</a>
-               <a href="#" className="hover:text-white transition-colors">Twitter</a>
-               <a href="#" className="hover:text-white transition-colors">Spotify</a>
+               <a 
+                href="#" 
+                className="hover:text-white transition-colors"
+                onMouseEnter={() => setCursorVariant("link")}
+                onMouseLeave={() => setCursorVariant("default")}
+               >Instagram</a>
+               <a 
+                href="#" 
+                className="hover:text-white transition-colors"
+                onMouseEnter={() => setCursorVariant("link")}
+                onMouseLeave={() => setCursorVariant("default")}
+               >Twitter</a>
+               <a 
+                href="#" 
+                className="hover:text-white transition-colors"
+                onMouseEnter={() => setCursorVariant("link")}
+                onMouseLeave={() => setCursorVariant("default")}
+               >Spotify</a>
             </div>
          </div>
       </footer>
-
-      <AudioPlayer />
     </main>
   );
+};
+
+export default function Home() {
+  return <PageContent />;
 }

@@ -12,6 +12,11 @@
   }
 }
 
+/* Hide Default Cursor */
+body, a, button, [role="button"], input, label, select, textarea, .cursor-pointer {
+    cursor: none !important;
+}
+
 /* Custom Scrollbar for Webkit */
 ::-webkit-scrollbar {
   width: 8px;
