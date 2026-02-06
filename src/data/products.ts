@@ -13,7 +13,7 @@ export const products: Product[] = [
     name: "MYNY Signature Jacket",
     price: 400,
     image: "/jacket.jpg",
-    images: ["/jacket.jpg", "/jacket-front-full.png", "/jacket-back.jpg", "/jacket-front-detail.png"],
+    images: ["/jacket.jpg", "/jacket-back.jpg"],
     category: "Jackets",
   },
   {
@@ -33,9 +33,10 @@ export const products: Product[] = [
   },
   {
     id: 4,
-    name: "Concrete Jungle LS",
-    price: 55,
-    image: "/shirt1.jpg",
+    name: "Fear No Garments 1/1 Tee",
+    price: 2500,
+    image: "/tee.jpg",
+    images: ["/tee.jpg"],
     category: "T-Shirts",
   },
 ];

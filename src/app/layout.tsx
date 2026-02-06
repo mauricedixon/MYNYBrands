@@ -5,6 +5,7 @@ import { CartSidebar } from "@/components/CartSidebar";
 import { CursorProvider } from "@/context/CursorContext";
 import { CartProvider } from "@/context/CartContext";
 import { AudioPlayer } from "@/components/AudioPlayer";
+import { Footer } from "@/components/Footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -38,6 +39,7 @@ export default function RootLayout({
             <CartSidebar />
             <AudioPlayer />
             {children}
+            <Footer />
           </CartProvider>
         </CursorProvider>
       </body>
