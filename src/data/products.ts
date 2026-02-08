@@ -38,8 +38,8 @@ export const products: Product[] = [
     id: 2,
     name: "MYNY Quarter Zip",
     price: 500,
-    image: "/quarter-zip.jpg",
-    images: ["/quarter-zip.jpg", "/quarter-zip-back.jpg", "/quarter-zip-detail.jpg"],
+    image: "/quarter-zip-new.png",
+    images: ["/quarter-zip-new.png", "/quarter-zip-back-new.png"],
     category: "Sweaters",
     description: "Luxury meets streetwear in this premium sherpa fleece quarter zip. The contrast between the plush cream sherpa and sleek black nylon panels creates a bold statement. Reflective piping adds visibility and style for the night owls.",
     details: [
@@ -58,7 +58,7 @@ export const products: Product[] = [
     id: 3,
     name: "MYNY Signature Snapback",
     price: 150,
-    image: "/hat.png",
+    image: "/hat-new.png",
     category: "Headwear",
     description: "What goes around comes around. This signature snapback features our iconic NY logo with the tiger mascot, embodying the spirit and hustle of New York. Premium construction with a classic fit that represents the culture.",
     details: [
