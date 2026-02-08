@@ -1,29 +1,40 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 import { Product } from "@/data/products";
 
 export type CartItem = Product & {
   selectedSize: string;
   quantity: number;
-  uniqueId: string; // generated from id + size to handle duplicates
+  uniqueId: string;
 };
 
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: Product, size: string, quantity: number) => void;
   removeFromCart: (uniqueId: string) => void;
+  updateQuantity: (uniqueId: string, quantity: number) => void;
   clearCart: () => void;
   isCartOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
   toggleCart: () => void;
   totalItems: number;
+  subtotal: number;
+  shipping: number;
+  total: number;
+  freeShippingThreshold: number;
+  freeShippingProgress: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const FREE_SHIPPING_THRESHOLD = 250;
+
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   // Load cart from local storage on mount
   useEffect(() => {
@@ -35,25 +46,38 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         console.error("Failed to parse cart", e);
       }
     }
+    setIsHydrated(true);
   }, []);
 
   // Save cart to local storage whenever it changes
   useEffect(() => {
-    localStorage.setItem("myny-cart", JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (isHydrated) {
+      localStorage.setItem("myny-cart", JSON.stringify(cartItems));
+    }
+  }, [cartItems, isHydrated]);
 
-  const addToCart = (product: Product, size: string, quantity: number) => {
+  // Prevent body scroll when cart is open
+  useEffect(() => {
+    if (isCartOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isCartOpen]);
+
+  const addToCart = useCallback((product: Product, size: string, quantity: number) => {
     setCartItems((prev) => {
       const uniqueId = `${product.id}-${size}`;
       const existingItemIndex = prev.findIndex((item) => item.uniqueId === uniqueId);
 
       if (existingItemIndex > -1) {
-        // Item exists, update quantity
         const newCart = [...prev];
         newCart[existingItemIndex].quantity += quantity;
         return newCart;
       } else {
-        // New item
         return [
           ...prev,
           {
@@ -65,22 +89,39 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         ];
       }
     });
-    setIsCartOpen(true); // Open cart when adding item
-  };
+    setIsCartOpen(true);
+  }, []);
 
-  const removeFromCart = (uniqueId: string) => {
+  const removeFromCart = useCallback((uniqueId: string) => {
     setCartItems((prev) => prev.filter((item) => item.uniqueId !== uniqueId));
-  };
+  }, []);
 
-  const clearCart = () => {
+  const updateQuantity = useCallback((uniqueId: string, quantity: number) => {
+    if (quantity < 1) {
+      removeFromCart(uniqueId);
+      return;
+    }
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.uniqueId === uniqueId ? { ...item, quantity } : item
+      )
+    );
+  }, [removeFromCart]);
+
+  const clearCart = useCallback(() => {
     setCartItems([]);
-  };
+  }, []);
 
-  const toggleCart = () => {
-    setIsCartOpen((prev) => !prev);
-  };
+  const openCart = useCallback(() => setIsCartOpen(true), []);
+  const closeCart = useCallback(() => setIsCartOpen(false), []);
+  const toggleCart = useCallback(() => setIsCartOpen((prev) => !prev), []);
 
+  // Computed values
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 15;
+  const total = subtotal + shipping;
+  const freeShippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
 
   return (
     <CartContext.Provider
@@ -88,10 +129,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         cartItems,
         addToCart,
         removeFromCart,
+        updateQuantity,
         clearCart,
         isCartOpen,
+        openCart,
+        closeCart,
         toggleCart,
         totalItems,
+        subtotal,
+        shipping,
+        total,
+        freeShippingThreshold: FREE_SHIPPING_THRESHOLD,
+        freeShippingProgress,
       }}
     >
       {children}

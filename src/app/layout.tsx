@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
 import { CustomCursor } from "@/components/CustomCursor";
-import { CartSidebar } from "@/components/CartSidebar";
+import { SlideOutCart } from "@/components/SlideOutCart";
 import { CursorProvider } from "@/context/CursorContext";
 import { CartProvider } from "@/context/CartContext";
 import { AudioPlayer } from "@/components/AudioPlayer";
@@ -36,7 +36,7 @@ export default function RootLayout({
         <CursorProvider>
           <CartProvider>
             <CustomCursor />
-            <CartSidebar />
+            <SlideOutCart />
             <AudioPlayer />
             {children}
             <Footer />
