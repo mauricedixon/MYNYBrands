@@ -18,8 +18,8 @@ export const products: Product[] = [
     id: 1,
     name: "MYNY Signature Jacket",
     price: 400,
-    image: "/jacket-front-new.png",
-    images: ["/jacket-front-new.png", "/jacket-back-new.png"],
+    image: "/jacket-clean.png",
+    images: ["/jacket-clean.png", "/jacket-back-clean.png"],
     category: "Jackets",
     description: "The definitive MYNY statement piece. This signature jacket features a classic work-wear silhouette reimagined with premium materials and our iconic denim patchwork back panel. Designed in New York City for those who represent the culture.",
     details: [
@@ -38,8 +38,8 @@ export const products: Product[] = [
     id: 2,
     name: "MYNY Quarter Zip",
     price: 500,
-    image: "/quarter-zip-new.png",
-    images: ["/quarter-zip-new.png", "/quarter-zip-back-new.png"],
+    image: "/quarter-zip-clean.png",
+    images: ["/quarter-zip-clean.png", "/quarter-zip-back-clean.png"],
     category: "Sweaters",
     description: "Luxury meets streetwear in this premium sherpa fleece quarter zip. The contrast between the plush cream sherpa and sleek black nylon panels creates a bold statement. Reflective piping adds visibility and style for the night owls.",
     details: [
@@ -77,8 +77,8 @@ export const products: Product[] = [
     id: 4,
     name: "Fear No Garments 1/1 Tee",
     price: 2500,
-    image: "/tee.jpg",
-    images: ["/tee.jpg"],
+    image: "/tee-clean.png",
+    images: ["/tee-clean.png"],
     category: "T-Shirts",
     description: "A one-of-one wearable art piece. Each Fear No Garments tee is hand-painted with original graffiti artwork featuring the 'We Made It From Nothing' motif. No two pieces are alike—this is true luxury streetwear at its finest.",
     details: [
