@@ -58,7 +58,7 @@ export const products: Product[] = [
     id: 3,
     name: "MYNY Signature Snapback",
     price: 150,
-    image: "/hat-new.png",
+    image: "/snapback-clean.png",
     category: "Headwear",
     description: "What goes around comes around. This signature snapback features our iconic NY logo with the tiger mascot, embodying the spirit and hustle of New York. Premium construction with a classic fit that represents the culture.",
     details: [
@@ -77,8 +77,8 @@ export const products: Product[] = [
     id: 4,
     name: "Fear No Garments 1/1 Tee",
     price: 2500,
-    image: "/tee-clean.png",
-    images: ["/tee-clean.png"],
+    image: "/tee.jpg",
+    images: ["/tee.jpg", "/tee-back.png"],
     category: "T-Shirts",
     description: "A one-of-one wearable art piece. Each Fear No Garments tee is hand-painted with original graffiti artwork featuring the 'We Made It From Nothing' motif. No two pieces are alike—this is true luxury streetwear at its finest.",
     details: [
