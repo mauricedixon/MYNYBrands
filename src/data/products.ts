@@ -11,6 +11,8 @@ export type Product = {
   care?: string[];
   sizes?: string[];
   limited?: boolean;
+  /** A single physical piece: one size, quantity locked to 1. */
+  oneOfOne?: boolean;
 };
 
 export const products: Product[] = [
@@ -93,6 +95,7 @@ export const products: Product[] = [
     care: ["Hand wash cold only", "Do not machine wash", "Lay flat to dry", "Do not iron on artwork"],
     sizes: ["M", "L", "XL"],
     limited: true,
+    oneOfOne: true,
   },
 ];
 

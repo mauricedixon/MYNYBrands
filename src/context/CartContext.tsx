@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 import { Product } from "@/data/products";
+import { FREE_SHIPPING_THRESHOLD, standardShippingFor } from "@/data/shipping";
 
 export type CartItem = Product & {
   selectedSize: string;
@@ -28,8 +29,6 @@ interface CartContextType {
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
-
-const FREE_SHIPPING_THRESHOLD = 250;
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -74,16 +73,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       const existingItemIndex = prev.findIndex((item) => item.uniqueId === uniqueId);
 
       if (existingItemIndex > -1) {
-        const newCart = [...prev];
-        newCart[existingItemIndex].quantity += quantity;
-        return newCart;
+        return prev.map((item, i) =>
+          i === existingItemIndex
+            ? { ...item, quantity: item.oneOfOne ? 1 : item.quantity + quantity }
+            : item
+        );
       } else {
         return [
           ...prev,
           {
             ...product,
             selectedSize: size,
-            quantity,
+            quantity: product.oneOfOne ? 1 : quantity,
             uniqueId,
           },
         ];
@@ -103,7 +104,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
     setCartItems((prev) =>
       prev.map((item) =>
-        item.uniqueId === uniqueId ? { ...item, quantity } : item
+        item.uniqueId === uniqueId ? { ...item, quantity: item.oneOfOne ? 1 : quantity } : item
       )
     );
   }, [removeFromCart]);
@@ -119,7 +120,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   // Computed values
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 15;
+  const shipping = standardShippingFor(subtotal);
   const total = subtotal + shipping;
   const freeShippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
 

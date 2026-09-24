@@ -4,7 +4,6 @@ import { CustomCursor } from "@/components/CustomCursor";
 import { SlideOutCart } from "@/components/SlideOutCart";
 import { CursorProvider } from "@/context/CursorContext";
 import { CartProvider } from "@/context/CartContext";
-import { AudioPlayer } from "@/components/AudioPlayer";
 import { Footer } from "@/components/Footer";
 import "./globals.css";
 
@@ -18,9 +17,22 @@ const oswald = Oswald({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "My New York Brands | Culture First",
-  description: "A culture-first streetwear platform.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "My New York Brands | Culture First",
+    template: "%s | My New York Brands",
+  },
+  description:
+    "Culture-first streetwear from New York City. Signature jackets, quarter zips, headwear and one-of-one wearable art.",
+  openGraph: {
+    type: "website",
+    siteName: "My New York Brands",
+    images: [{ url: "/jacket-clean.png", alt: "MYNY Signature Jacket" }],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({
@@ -37,7 +49,6 @@ export default function RootLayout({
           <CartProvider>
             <CustomCursor />
             <SlideOutCart />
-            <AudioPlayer />
             {children}
             <Footer />
           </CartProvider>

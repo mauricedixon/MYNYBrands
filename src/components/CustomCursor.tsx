@@ -17,6 +17,12 @@ export const CustomCursor = () => {
   const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
+    // Must match the media query in globals.css that hides the system cursor
+    const enabled = window.matchMedia(
+      "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)"
+    ).matches;
+    if (!enabled) return;
+
     const moveCursor = (e: MouseEvent) => {
       // Center the 24px crosshair (12px offset)
       mouseX.set(e.clientX - 12);
