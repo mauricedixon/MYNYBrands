@@ -183,6 +183,7 @@ export const SlideOutCart = () => {
                                                         <div className="flex items-center border border-gray-200">
                                                             <button
                                                                 onClick={() => updateQuantity(item.uniqueId, item.quantity - 1)}
+                                                                aria-label={`Decrease quantity of ${item.name}`}
                                                                 className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
                                                                 onMouseEnter={() => setCursorVariant("link")}
                                                                 onMouseLeave={() => setCursorVariant("default")}
@@ -194,7 +195,9 @@ export const SlideOutCart = () => {
                                                             </span>
                                                             <button
                                                                 onClick={() => updateQuantity(item.uniqueId, item.quantity + 1)}
-                                                                className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                                                                disabled={item.oneOfOne}
+                                                                aria-label={`Increase quantity of ${item.name}`}
+                                                                className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
                                                                 onMouseEnter={() => setCursorVariant("link")}
                                                                 onMouseLeave={() => setCursorVariant("default")}
                                                             >

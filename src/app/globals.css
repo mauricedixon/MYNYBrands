@@ -12,9 +12,17 @@
   }
 }
 
-/* Hide Default Cursor */
-body, a, button, [role="button"], input, label, select, textarea, .cursor-pointer {
+/* Swap in the crosshair cursor only for mouse users who allow motion;
+   touch, keyboard and reduced-motion visitors keep the system cursor. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body, a, button, [role="button"], label, .cursor-pointer {
     cursor: none !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-red);
+  outline-offset: 2px;
 }
 
 /* Custom Scrollbar for Webkit */
